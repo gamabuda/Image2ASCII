@@ -1,0 +1,38 @@
+﻿@using System.IO
+
+<div class="m-0">
+    <div class="text-center">
+        <div class="btn-group btn-group-lg" role="group" aria-label="...">
+            <div class="btn btn-outline-light file-input-zone">
+                <InputFile />
+                <span class="iconify" data-icon="mdi:file-upload-outline"></span>
+                Upload
+            </div>
+            <button type="button" class="btn btn-outline-light">
+                <span class="iconify" data-icon="mdi:replay"></span>
+                Generate
+            </button>
+            <button type="button" class="btn btn-outline-light">
+                <span class="iconify" data-icon="mdi:file-document-remove-outline"></span>
+                Reset
+            </button>
+        </div>
+    </div>
+    <div class="dragzone">
+        <div class="text-center border-dotted border-success p-2 m-3 border-opacity-50">
+            <i class="text-light opacity-50">
+                Click Upload to add a picture or just drag and drop the file here...
+            </i>
+        </div>
+    </div>
+    
+    <img src="..." class="card-img-bottom" alt="...">
+</div>
+
+@code {
+    private async void UploadImage()
+    {
+        //await using FileStream fs = new FileStream();
+    }
+}
+
