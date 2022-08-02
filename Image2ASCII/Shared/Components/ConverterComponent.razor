@@ -4,7 +4,7 @@
     <div class="text-center">
         <div class="btn-group btn-group-lg" role="group" aria-label="...">
             <div class="btn btn-outline-light file-input-zone">
-                <InputFile />
+                <InputFile accept="image/x-png,image/jpeg" OnChange="UploadImage"/>
                 <span class="iconify" data-icon="mdi:file-upload-outline"></span>
                 Upload
             </div>
@@ -19,20 +19,42 @@
         </div>
     </div>
     <div class="dragzone">
-        <div class="text-center border-dotted border-success p-2 m-3 border-opacity-50">
-            <i class="text-light opacity-50">
-                Click Upload to add a picture or just drag and drop the file here...
-            </i>
-        </div>
+        @if(_imageDataUri is not null)
+        {
+            <div class="text-center image-dotted m-3 border-opacity-50">
+                <img src="@_imageDataUri" alt="Your image"/>
+            </div>
+        }
+        else
+        {
+            <div class="text-center border-dotted border-success p-2 m-3 border-opacity-50">
+                <i class="text-light opacity-50">
+                    Click Upload to add a picture or just drag and drop the file here...
+                </i>
+            </div>
+        }
     </div>
-    
-    <img src="..." class="card-img-bottom" alt="...">
 </div>
 
 @code {
-    private async void UploadImage()
+
+    private string _imageDataUri;
+
+    private async Task UploadImage(InputFileChangeEventArgs e)
     {
-        //await using FileStream fs = new FileStream();
+        long maxFileSize = 1024 * 1024 * 15;
+
+        // On Client e.File is a IBrowserFile
+        // Read Data
+        var imageFile = await e.File.RequestImageFileAsync("image/jpeg", 370, 300);
+        using Stream fileStream = imageFile.OpenReadStream(maxFileSize);
+        using MemoryStream ms = new();
+
+        await fileStream.CopyToAsync(ms);
+        byte[] fileBytes = ms.ToArray();
+
+        // Display Data as data:uri
+        _imageDataUri = $"data:image/jpeg;base64,{Convert.ToBase64String(fileBytes)}";
     }
 }
 

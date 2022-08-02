@@ -81,17 +81,24 @@ a, .btn-link {
         cursor: pointer;
     }
 
+.dragzone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .border-dotted {
     display: flex;
     align-items: center;
     justify-content: center;
     max-width: 370px;
     height: 300px;
-    border: 2px dotted #dee2e6 !important
+    border: 2px dotted #198754 !important
 }
 
-.dragzone {
+.image-dotted {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2px dotted #198754 !important
 }
