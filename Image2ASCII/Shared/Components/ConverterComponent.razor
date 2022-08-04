@@ -1,10 +1,10 @@
 ﻿@using System.IO
 
-<div class="m-0">
+<div class="m-0 holder-show">
     <div class="text-center">
         <div class="btn-group btn-group-lg" role="group" aria-label="...">
             <div class="btn btn-outline-light file-input-zone">
-                <InputFile accept="image/x-png,image/jpeg" OnChange="UploadImage"/>
+                <InputFile accept="image/png,image/jpeg" OnChange="UploadImage" />
                 <span class="iconify" data-icon="mdi:file-upload-outline"></span>
                 Upload
             </div>
@@ -12,24 +12,24 @@
                 <span class="iconify" data-icon="mdi:replay"></span>
                 Generate
             </button>
-            <button type="button" class="btn btn-outline-light">
+            <button @onclick="ResetImage" type="button" class="btn btn-outline-light">
                 <span class="iconify" data-icon="mdi:file-document-remove-outline"></span>
                 Reset
             </button>
         </div>
     </div>
     <div class="dragzone">
-        @if(_imageDataUri is not null)
+        @if (_imageDataUri is not null)
         {
             <div class="text-center image-dotted p-2 m-3 border-opacity-50">
-                <img src="@_imageDataUri" alt="Your image"/>
+                <img src="@_imageDataUri" alt="Your image" />
             </div>
         }
         else
         {
             <div class="text-center border-dotted border-success p-2 m-3 border-opacity-50">
-                <i class="text-light opacity-50">
-                    Click Upload to add a picture or just drag and drop the file here...
+                <i class="text-light opacity-50 user-select-none">
+                    Click Upload to add a picture or just drop the file here...
                 </i>
             </div>
         }
@@ -38,14 +38,15 @@
 
 @code {
 
+    private const double WIDTH_OFFSET = 1.5;
+
     private string _imageDataUri;
 
     private async Task UploadImage(InputFileChangeEventArgs e)
     {
+        //optionality file size
         long maxFileSize = 1024 * 1024 * 15;
 
-        // On Client e.File is a IBrowserFile
-        // Read Data
         var imageFile = await e.File.RequestImageFileAsync("image/jpeg", 370, 300);
         using Stream fileStream = imageFile.OpenReadStream(maxFileSize);
         using MemoryStream ms = new();
@@ -53,8 +54,18 @@
         await fileStream.CopyToAsync(ms);
         byte[] fileBytes = ms.ToArray();
 
-        // Display Data as data:uri
         _imageDataUri = $"data:image/jpeg;base64,{Convert.ToBase64String(fileBytes)}";
+    }
+
+    private async Task GenerateASCII()
+    {
+
+    }
+
+    private void ResetImage()
+    {
+        if (_imageDataUri is not null)
+            _imageDataUri = null;
     }
 }
 

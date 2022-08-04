@@ -88,6 +88,7 @@ a, .btn-link {
 }
 
 .border-dotted {
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -97,8 +98,29 @@ a, .btn-link {
 }
 
 .image-dotted {
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 2px dotted #198754 !important
+}
+
+.holder-show {
+    opacity: 0;
+    transition: 1s;
+    animation: show 2s 1;
+    animation-fill-mode: forwards;
+    animation-delay: 0;
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+        margin-top: 30%;
+    }
+
+    100% {
+        opacity: 1;
+        margin-top: 0;
+    }
 }
